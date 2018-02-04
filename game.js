@@ -11,9 +11,10 @@ function PlayerMaker(name, health, img) {
     this.img = img
 }
 
-var player1 = new PlayerMaker("Joe D.", 100, "assets/images/FreshMeat.jpg")
+var player1 = new PlayerMaker("Fresh Meat", 100, "assets/images/FreshMeat.jpg")
+var player2 = new PlayerMaker("Pew Pew", 100, "assets/images/SpaceDefender.jpg")
 
-players.push(player1)
+players.push(player1, player2)
 
 function drawPlayer(arr) {
     var template = ''
@@ -26,8 +27,6 @@ function drawPlayer(arr) {
                 <h4> ${player.name} Health: ${player.health}
                 </h4>
                 <p>Hits:<span id="player.hits">0</span>
-                </p>
-                <p><button type="button" class="btn btn-primary" onClick="startGame()">Start Game</button>
                 </p>
             </div>
             <div class="card-body">
@@ -53,9 +52,10 @@ function EnemyMaker(name, health, img) {
     this.img = img
 }
 
-var enemy1 = new EnemyMaker("Sinicsster", 80, "assets/images/EvilDragon.jpg")
+var enemy1 = new EnemyMaker("Draggin", 80, "assets/images/EvilDragon.jpg")
+var enemy2 = new EnemyMaker("Chompy", 80, "assets/images/SpaceInvader.jpg")
 
-enemies.push(enemy1)
+enemies.push(enemy1, enemy2)
 
 function drawEnemy(arr) {
     var template = ''
@@ -86,16 +86,15 @@ function drawEnemy(arr) {
     enemyElem.innerHTML = template
 }
 
-draw(players)
 
 //write  a button to enter player name and start game
 
-function startGame() {
-    health = 100
-    hits = 0
-    player = prompt("Player1! Enter your Name!")
-    onStart()
-}
+// function startGame() {
+//     health = 100
+//     hits = 0
+//     player = prompt("Player1! Enter your Name!")
+//     onStart()
+// }
 
 function onStart() {
     health = 100
@@ -111,10 +110,12 @@ function onDamage() {
     document.getElementById("player.hits").innerHTML = player.hits
 }
 
-function slap() {
+function slap(index) {
+    var players = player[index]
     health -= 1
     hits += 1
     onDamage()
+    drawPlayer(players)
 }
 
 function punch() {
@@ -130,5 +131,5 @@ function kick() {
 }
 
 
-draw(players)
-draw(enemies)
+drawPlayer(players)
+drawEnemy(enemies)
