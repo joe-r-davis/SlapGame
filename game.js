@@ -8,8 +8,8 @@ var Item = function(name, damage, itemBlurb){
 //Step 3 - create the items Dictionary
 var items ={        //need to figure out how to have a dictionary of items that decrease damage
     shield: new Item("shield", 0.2, "Shield yourself from danger- Reduce damage 20%"),
-    elixir: new Item("elixir", 0.5, "An elixir for what ails you- Reduce damage 50%"),
-    love: new Item("love", 0.8, "Behold the power of love- Reduce damage 80%")
+    elixir: new Item("elixir", 0.6, "An elixir for what ails you- Reduce damage 50%"),
+    love: new Item("love", 0.7, "Behold the power of love- Reduce damage 80%")
 }
 
 var player = new Player("Fresh Meat", 100, "assets/images/FreshMeat.jpg", 0,"")  //Step 4- Give some items to our target
@@ -20,7 +20,8 @@ function Player(name, health, img, hits, dead) {
     this.img = img
     this.hits = 0
     this.dead = ""
-    this.items= [] //Step 4- Give some items to our target
+    this.items= [items.shield, items.elixir, items.love] //Step 4- Give some items to our target
+    this.currentMods= 1
 }
 
 function drawPlayer() {
@@ -48,9 +49,9 @@ function drawPlayer() {
                 <button type="button" class="btn btn-dark" onClick="kick()">Kick!</button>
                 <hr>
                 <p>Choose from below to reduce damage</p>
-                <button type="button" class="btn btn-info" onClick="giveShield()">Shield</button>
-                <button type="button" class="btn btn-success" onClick="giveElixir()">Elixir</button>
-                <button type="button" class="btn btn-primary" onClick="giveLove()">Love</button>
+                <button type="button" class="btn btn-info" onClick="addMods('shield')">Shield</button>
+                <button type="button" class="btn btn-success" onClick="addMods('elixir')">Elixir</button>
+                <button type="button" class="btn btn-primary" onClick="addMods('love')">Love</button>
             </div>
         </div> 
         `
@@ -59,18 +60,18 @@ function drawPlayer() {
 }
 //Step 6 Need to reduce the damage if item has been added.
 function slap() {
-    player.health -= (1 * addMods())      
+    player.health -= 1 * player.currentMods      
     player.hits += 1
     drawPlayer()
 }
 function punch() {
-    player.health -= (5 * addMods())
+    player.health -= 5 * player.currentMods
     player.hits += 1
     drawPlayer()
 }
 
 function kick() {
-    player.health -= (10 * addMods())
+    player.health -= 10 * player.currentMods
     player.hits += 1
     drawPlayer()
 }
@@ -93,13 +94,14 @@ function giveLove(){
 
 //Step 5 reduce the damage
 
-function addMods(toAdd){
+function addMods(itemChoice){
     var itemDamage = 1
     for (let i = 0; i < player.items.length; i++) {
-        const item = player.items[i]; //ALIAS
-        itemDamage -= item.damage 
+        const item = player.items[i];
+        if (itemChoice == item.name) {
+            player.currentMods -= item.damage 
+        }
     }
-    return itemDamage
     drawPlayer()   
 }
 
