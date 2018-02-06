@@ -1,3 +1,4 @@
+//Step 2 Items
 var Item = function(name, damage, itemBlurb){
     this.name = name;
     this.damage = damage;
@@ -6,9 +7,9 @@ var Item = function(name, damage, itemBlurb){
 
 //Step 3 - create the items Dictionary
 var items ={        //need to figure out how to have a dictionary of items that decrease damage
-    shield: new Item("shield", 0.3, "Shield yourself from danger"),
-    elixir: new Item("Elixir", 1.6, "An elixir for what ails you"),
-    love: new Item("Love", 4.0, "Behold the power of love")
+    shield: new Item("shield", 0.8, "Shield yourself from danger- Reduce damage 20%"),
+    elixir: new Item("elixir", 0.5, "An elixir for what ails you- Reduce damage 50%"),
+    love: new Item("love", 0.2, "Behold the power of love- Reduce damage 80%")
 }
 
 var player = new Player("Fresh Meat", 100, "assets/images/FreshMeat.jpg", 0,"")  //Step 4- Give some items to our target
@@ -19,7 +20,7 @@ function Player(name, health, img, hits, dead) {
     this.img = img
     this.hits = 0
     this.dead = ""
-    this.items= [items.shield, items.elixir, items.love] //Step 4- Give some items to our target
+    this.items= [] //Step 4- Give some items to our target
 }
 
 function drawPlayer() {
@@ -45,18 +46,11 @@ function drawPlayer() {
                 <button type="button" class="btn btn-danger" onClick="slap()">Slap!</button>
                 <button type="button" class="btn btn-warning" onClick="punch()">Punch!</button>
                 <button type="button" class="btn btn-dark" onClick="kick()">Kick!</button>
-                <div class="row" >
-                        <div class="col-sm-4 d-sm-inline-flex" text-align="center">
-
-                                <img src="assets/images/Shield-Mod.jpg" alt="Shield Mod">
-
-                                <img src="assets/images/Elixir-Mod.jpg" alt="Elixir Mod">
-
-                                <img src="assets/images/Love-Mod.jpg" alt="Love Mod">
-
-                        </div>
-                    </div>            
-                </div>
+                <hr>
+                <p>Choose from below to reduce damage</p>
+                <button type="button" class="btn btn-info" onClick="giveShield()">Shield</button>
+                <button type="button" class="btn btn-success" onClick="giveElixir()">Elixir</button>
+                <button type="button" class="btn btn-primary" onClick="giveLove()">Love</button>
             </div>
         </div> 
         `
@@ -80,21 +74,34 @@ function kick() {
     player.hits += 1
     drawPlayer()
 }
-//Step 2 - Items
+//Step 7- Let the user select the items
+function giveShield(){
+    player.items.push("shield")
+    drawPlayer()
+}
+
+function giveElixir(){
+    player.items.push("elixir")
+    drawPlayer()
+}
+
+function giveLove(){
+    player.items.push("love")
+    drawPlayer()
+}
+
+
 //Step 5 reduce the damage
 
 function addMods(toAdd){
     var itemDamage = 0
     for (let i = 0; i < player.items.length; i++) {
         const item = player.items[i]; //ALIAS
-        itemDamage += item.damage
-        
+        itemDamage += item.damage 
     }
-    
-    return itemDamage
+    return itemDamage   
 }
 
 
 drawPlayer()
-debugger
-addMods("shield", "elixir")
+
