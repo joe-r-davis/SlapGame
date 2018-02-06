@@ -7,9 +7,9 @@ var Item = function(name, damage, itemBlurb){
 
 //Step 3 - create the items Dictionary
 var items ={        //need to figure out how to have a dictionary of items that decrease damage
-    shield: new Item("shield", 0.8, "Shield yourself from danger- Reduce damage 20%"),
+    shield: new Item("shield", 0.2, "Shield yourself from danger- Reduce damage 20%"),
     elixir: new Item("elixir", 0.5, "An elixir for what ails you- Reduce damage 50%"),
-    love: new Item("love", 0.2, "Behold the power of love- Reduce damage 80%")
+    love: new Item("love", 0.8, "Behold the power of love- Reduce damage 80%")
 }
 
 var player = new Player("Fresh Meat", 100, "assets/images/FreshMeat.jpg", 0,"")  //Step 4- Give some items to our target
@@ -57,20 +57,20 @@ function drawPlayer() {
 
     playerElem.innerHTML = template
 }
-
+//Step 6 Need to reduce the damage if item has been added.
 function slap() {
-    player.health -= 1
+    player.health -= (1 * addMods())      
     player.hits += 1
     drawPlayer()
 }
 function punch() {
-    player.health -= 5
+    player.health -= (5 * addMods())
     player.hits += 1
     drawPlayer()
 }
 
 function kick() {
-    player.health -= 10
+    player.health -= (10 * addMods())
     player.hits += 1
     drawPlayer()
 }
@@ -94,12 +94,13 @@ function giveLove(){
 //Step 5 reduce the damage
 
 function addMods(toAdd){
-    var itemDamage = 0
+    var itemDamage = 1
     for (let i = 0; i < player.items.length; i++) {
         const item = player.items[i]; //ALIAS
-        itemDamage += item.damage 
+        itemDamage -= item.damage 
     }
-    return itemDamage   
+    return itemDamage
+    drawPlayer()   
 }
 
 
